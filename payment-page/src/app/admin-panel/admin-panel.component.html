@@ -1,0 +1,9 @@
+<form [formGroup]="authForm">
+    <div class="tabs">
+      <ul>
+        Логин:<input type="email" formControlName="email" required>
+        Пароль:<input type="password" formControlName="password" required><br/>
+        <button [disabled]="authForm.invalid" class="sub_btn100500" (click)="onSubmit()">Войти</button>
+      </ul>
+    </div>
+  </form>

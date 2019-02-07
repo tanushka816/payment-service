@@ -1,0 +1,40 @@
+.tabs ul{
+	margin: 5px 0 15px 0;
+	width: 675px;
+	border-radius: 10px 0;
+	overflow: hidden;
+	background: linear-gradient(to bottom, #008B8B 0%,  #191970 100%)
+}
+
+.tabs li {
+	display: inline-block;
+	border-right: 0.1em solid #fff;
+	border-left: 0.1em solid #fff;
+	border-radius: 0 10px;
+	box-shadow: 3px 0 2px 1px #747a5d;
+	padding: 5px 70px;
+	font-size: 13px;
+	font-family: Snell Roundhand, cursive;
+	color: #fff;
+	width: 180px;
+	text-align: center;
+}
+
+@media screen and (max-width: 968px) { 
+	.tabs ul{
+		background-color: transparent;
+		width: 50%;
+		padding: 0;
+		}
+
+	.tabs li{
+	display: block;
+	}
+}
+
+@media screen and (max-width: 660px) { 
+	.tabs li{
+	text-align: left;
+	padding: 0 0 0 0;
+	}
+}

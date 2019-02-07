@@ -1,0 +1,78 @@
+<div class="tabs">
+    <ul>
+        <li><a style="cursor: pointer" (click)="onGetCardPay()">Платежи по картам</a></li>
+        <li><a style="cursor: pointer" (click)="onGetRequestPay()">Запрошенные платежи</a></li>
+    </ul>
+  </div>
+  
+  <form [formGroup]="myForm">
+    <div>
+    Выберите поле:<br/>
+    <select *ngIf="!isRequestData" formControlName="field">
+      <option selected value="card_number">Номер счета</option>
+      <option value="year">мм/гг</option>
+      <option value="cvc">cvc</option>
+      <option value="summ">Сумма</option>
+      <option value="email">Почта</option>
+    </select>
+    <select *ngIf="isRequestData" formControlName="field">
+      <option value="bik">БИК</option>
+      <option value="inn">ИНН</option>
+      <option value="nds">НДС</option>
+      <option value="summ">Сумма</option>
+      <option selected value="card_number">Номер счета</option>
+      <option value="tlf_number">Телефон</option>
+      <option value="email">Почта</option>
+    </select>
+  </div>
+  
+    Фильтр:
+    <input name="filter" formControlName="filter">
+    </form> 
+  
+  <p><button class="bt" type="submit" (click)="onSubmit()">ОТПРАВИТЬ</button></p>
+  
+  
+  <br/>
+  <table *ngIf="isRequestData">
+    <tr>
+      <th>БИК</th>
+      <th>ИНН</th>
+      <th>НДС</th>
+      <th>СУММА</th>
+      <th>НОМЕР СЧЕТА</th>
+      <th>ТЕЛЕФОН</th>
+      <th>ПОЧТА</th>
+    </tr>
+    <tr *ngFor="let requestData of data | keyvalue">  
+      <td>{{requestData.value.bik}}</td>
+      <td>{{requestData.value.inn}}</td>
+      <td>{{requestData.value.nds}}</td>
+      <td>{{requestData.value.summ}}</td>
+      <td>{{requestData.value.card_number}}</td>
+      <td>{{requestData.value.tlf_number}}</td>
+      <td>{{requestData.value.email}}</td>
+    </tr>
+  </table>
+  
+  <table *ngIf="isCardData">
+      <tr>
+        <th>НОМЕР СЧЕТА</th>
+        <th>ММ/ГГ</th>
+        <th>CVC</th>
+        <th>СУММА</th>
+        <th>ПОЧТА</th>
+        <th>БЕЗОПАСНЫЙ</th>
+        <th>ИЗМЕНИТЬ БЕЗОПАСНОСТЬ</th>
+      </tr>
+      <tr *ngFor="let item of data | keyvalue" [ngClass]="{myError: !item.value.secure}">
+        <td>{{item.value.card_number}}</td>
+        <td>{{item.value.mounth}}/{{item.value.year}}</td>
+        <td>{{item.value.cvc}}</td>
+        <td>{{item.value.summ}}</td>
+        <td>{{item.value.email}}</td>
+        <td>{{item.value.secure}}</td>
+        <td><button (click)="onSubmitChangeSecure(item.key)">ИЗМЕНИТЬ</button></td>
+      </tr>
+    </table>
+  

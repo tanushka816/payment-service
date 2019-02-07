@@ -1,0 +1,23 @@
+<form [formGroup]="myForm">
+    <div class="data">
+      Номер карты: <input class="card_input" type="text" name="card" maxlength=19 placeholder="XXXX XXXX XXXX XXXX" 
+      required formControlName="card_number"><br/><br/>
+      Срок действия: <input class="card_line_input" type="text" name="time_month" placeholder="ММ" formControlName="mounth" 
+      maxlength=2 required>
+      / <input class="card_line_input" type="text" name="time_year" placeholder="ГГ" formControlName="year" maxlength=2 required><br/><br/><br/>
+      CVC: <input class="card_line_input" type="text" name="cvc" maxlength=3 placeholder="XXX" formControlName="cvc" required>
+    </div>
+    
+    <div class="data">
+      Сумма <input class="card_input" type="text" name="summ" placeholder="от 1000 Р до 75 000 Р" 
+      formControlName="summ" required><br/>
+      Комментарий <input class="card_input" type="text" name="comment" maxlength=150 placeholder="до 150 символов"
+      formControlName = "comment"><br/>
+      Ваша электронная почта <input class="card_input" type="email" name="email" placeholder="Для квитанции об оплате" 
+      formControlName="email" required><br/>
+    </div>
+
+    <div>
+      <button [disabled]="myForm.invalid" class="sub_btn" (click)="onSubmit()">Заплатить</button>
+    </div>
+</form>

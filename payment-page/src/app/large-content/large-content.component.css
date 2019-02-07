@@ -1,0 +1,29 @@
+.simple_text{
+    font-style: italic;
+    font-size: 17px;
+    color: #FFE273;
+    width: 100%
+    }
+
+.three_col{
+    width: 930px;
+    overflow: hidden;
+    height: 160px;
+    display: flex;
+    justify-content: center;
+}
+.three_col img{
+    width: 33%;
+    object-fit: cover;
+    transition: all 0.5s ease-out;
+}
+.three_col img:hover{
+    transform: scale(1.1);
+}
+
+@media screen and (max-width: 968px) { 
+    .simple_text { 
+        position: static; 
+        padding: 5px; 
+    } 
+}

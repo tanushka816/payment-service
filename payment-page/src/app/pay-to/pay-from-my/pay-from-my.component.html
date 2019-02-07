@@ -1,0 +1,29 @@
+<form [formGroup]="myForm">
+    <div class="data">
+      ИНН: <input class="card_input" type="text" name="INN" placeholder="9 или 12 цифр" required
+      formControlName="inn" maxlength=12><br/>
+      БИК: <input class="card_input" type="text" name="BIK" placeholder="9 цифр" required
+      formControlName="bik" maxlength=9><br/>
+      Номер счёта: <input class="card_input" type="text" name="card_number" maxlength=19 required
+      placeholder="XXXX XXXX XXXX XXXX" formControlName="card_number"><br/>
+      НДС: <input class="card_input" type="text" name="NDS" placeholder="0, 10 или 18" required readonly
+      formControlName="nds">
+    </div>
+    <div class="data_an">
+        <div class="tabs">
+            <li class="li_without_point"><a style="cursor: pointer" (click)="onSelect('0')">0%</a></li>
+            <li class="li_without_point"><a style="cursor: pointer" (click)="onSelect('10')">10%</a></li>
+            <li class="li_without_point"><a style="cursor: pointer" (click)="onSelect('18')">18%</a></li>
+          </div>
+        </div>
+    <div class="data">
+      <br/>
+      Сумма <input class="card_input" type="text" name="summ" placeholder="от 1000 Р до 75 000 Р" 
+      formControlName="summ" required><br/>
+    </div>
+    
+    <div class="fl">
+      <button [disabled]="myForm.invalid" class="sub_btn" (click)="onSubmit()">Получить файл для интернет банка</button>
+      <button class="sub_btn" (click)="onSubmitClear()">Очистить поля</button>			
+    </div>
+</form>
