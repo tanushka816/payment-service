@@ -13,17 +13,17 @@ export class ServerService {
 
     storeCardPayment(data) { // pay from any
         return this.http.post(this.address + "card-payment", data, 
-        {observe: "response", responseType: "text"})
+            {observe: "response", responseType: "text"})
     }
 
     storeRequestPayment(data) {  // get payment
         return this.http.post(this.address + "request-payment", data, 
-        {observe: "response", responseType: "text"})
+            {observe: "response", responseType: "text"})
     }
 
     storeAndDownloadFromMy(data) {  // pay from my
         return this.http.post(this.address + "download", data,
-        {observe: "response", responseType: "text"})
+            {observe: "response", responseType: "text"})
     }
 
     getCardPayment(field?: string, filter?: string) {
@@ -31,7 +31,7 @@ export class ServerService {
         if (field) field = "field=" + field;
         const query = `?${field}&${filter}`;
         console.log(query);
-        return this.http.get(this.address + "any_card_data" + query)
+        return this.http.get(this.address + "card-payment" + query)
     }
 
     getRequestPayment(field?: string, filter?: string) {
@@ -39,7 +39,7 @@ export class ServerService {
         if (field) field = "field=" + field;
         const query = `?${field}&${filter}`;
         console.log(query);
-        return this.http.get(this.address + "req_data" + query)
+        return this.http.get(this.address + "request-payment" + query)
     }
 
     changeSecure(key, value) {

@@ -11,7 +11,7 @@ firebase.initializeApp(firebaseConfig);
 var db = firebase.database();
 
 app.use(express.json());
-app.use(express.urlencoded());
+app.use(express.urlencoded({ extended: true }));
 var secretKey = 'S0Me_SeCr3t_kEY';
 
 app.listen(4201, () => console.log('localhost 4201!'));
@@ -43,7 +43,7 @@ app.post('/auth', function(request, response) {
             let resultToken = `${jwt.sign(token, secretKey)}`;
             response.setHeader('X-Set-Authorization', resultToken);
             console.log('Отправление токена');
-            response.send({isCorrect: true}).end();
+            response.send({ isCorrect: true }).end();
         }
     }
     else if (!response.headersSent) {
@@ -63,12 +63,12 @@ app.post('/download', function(request, response) {
         СУММА: ${value.summ}`
         fs.writeFileSync("./temp.txt", result);
         response.sendFile('temp.txt', options, err => err 
-        ? throws(response, err)
-        : send(response, 'Скачивание файла'));
+            ? throws(response, err)
+            : send(response, 'Скачивание файла'));
         
     } catch(err) {
         if (!response.headersSent)
-        return response.status(401).end();
+            return response.status(401).end();
     }
 });
 
@@ -96,7 +96,7 @@ app.get('/:path', function(request, response) {
 
 app.patch('/change-secure', function(request, response) {
     const updates = request.body;
-    db.ref("any_card_data").update(updates, err => err
+    db.ref('card-payment').update(updates, err => err
         ? throws(response, err)
         : send(response, 'Статус платежа изменен')
     );
