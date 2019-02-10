@@ -42,9 +42,7 @@ export class ServerService {
         return this.http.get(this.address + "request-payment" + query)
     }
 
-    changeSecure(key, value) {
-        const data = {};
-        data[key+"/secure"] = value;
+    changeSecure(data) {
         return this.http.patch(this.address + "change-secure", data, 
             {observe: 'response', responseType: 'text'})
     }

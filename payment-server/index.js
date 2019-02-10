@@ -8,7 +8,7 @@ var jwt = require("jsonwebtoken");
 
 var firebaseConfig = require('./firebase.config.json');
 firebase.initializeApp(firebaseConfig);
-var db = firebase.database();
+var db = firebase.firestore();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -74,32 +74,40 @@ app.post('/download', function(request, response) {
 
 app.post('/:path', function(request, response) {
     const value = request.body;
-    db.ref(request.path).push(value, err => err
-        ? throws(response, err)
-        : send(response, 'Данные сохранены'),
-    );
+    db.collection(request.path)
+        .add(value)
+        .then(() => send(response, 'Данные сохранены'))
+        .catch(error => throws(response, error))
 });
 
 app.get('/:path', function(request, response) {
     const field = request.query.field || 'email';
     const filter = request.query.filter;
-    console.log(field);
-    console.log(typeof(filter));
-    let ref = db.ref(request.path);
+    const sort = request.query.sort;
+    console.log("field: ", field);
+    console.log("filter: ", filter);
+    console.log("sort: ", sort);
+
+    let ref = db.collection(request.path);
     if (filter) {
-        ref = db.ref(request.path).orderByChild(field).equalTo(filter);
+        ref = ref.where(field, "==", filter);
     }
-    ref.on('value', function(snapshot) {
-        send(response, snapshot.val(), 'Данные отправлены');
-    });
+    if (sort) {
+        ref = ref.orderBy(field, sort);
+    }
+    ref.onSnapshot(function(snapshot) {
+        const res = {};
+        snapshot.forEach(doc => {res[doc.id] = doc.data()});
+        send(response, res, 'Данные отправлены');
+    })
 })
 
 app.patch('/change-secure', function(request, response) {
     const updates = request.body;
-    db.ref('card-payment').update(updates, err => err
-        ? throws(response, err)
-        : send(response, 'Статус платежа изменен')
-    );
+    db.collection('card-payment').doc(updates.id)
+        .update({'secure': updates.secure})
+        .then(() => send(response, 'Статус платежа изменен'))
+        .catch(error => throws(response, error));
 })
 
 function throws(response, error) {

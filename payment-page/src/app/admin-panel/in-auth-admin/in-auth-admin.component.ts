@@ -43,7 +43,8 @@ export class InAuthAdminComponent implements OnInit {
 
  onSubmitChangeSecure(key) {
     this.data[key].secure = !this.data[key].secure
-    this.serverService.changeSecure(key, this.data[key].secure)
+    const data = {'id': key, 'secure': this.data[key].secure}
+    this.serverService.changeSecure(data)
       .subscribe(
         (request) => console.log(request),
         (error) => console.log(error)
