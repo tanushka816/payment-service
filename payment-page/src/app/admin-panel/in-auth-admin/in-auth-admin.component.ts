@@ -18,6 +18,7 @@ export class InAuthAdminComponent implements OnInit {
     this.myForm = new FormGroup({
       "field": new FormControl(),
       "filter": new FormControl(),
+      "sort": new FormControl()
     });
   }
 
@@ -41,10 +42,9 @@ export class InAuthAdminComponent implements OnInit {
       );
   }
 
- onSubmitChangeSecure(key) {
-    this.data[key].secure = !this.data[key].secure
-    const data = {'id': key, 'secure': this.data[key].secure}
-    this.serverService.changeSecure(data)
+  onSubmitChangeSecure(item) {
+    item.secure = !item.secure
+    this.serverService.changeSecure(item)
       .subscribe(
         (request) => console.log(request),
         (error) => console.log(error)
@@ -52,26 +52,23 @@ export class InAuthAdminComponent implements OnInit {
   }
 
   onSubmit() {
-    const field = this.myForm.value['field'];
-    const filter = this.myForm.value['filter'];
     if (this.isRequestData) {
-      this.serverService.getRequestPayment(field, filter)
-      .subscribe(
-        (data) => this.data = data,
-        (error) => console.log(error)
-      );
+      this.serverService.getRequestPayment(this.myForm.value)
+        .subscribe(
+          (data) => this.data = data,
+          (error) => console.log(error)
+        );
     }
     else {
       this.isCardData = true;
-      this.serverService.getCardPayment(field, filter)
-      .subscribe(
-        (data) => this.data = data,
-        (error) => console.log(error)
-      );
+      this.serverService.getCardPayment(this.myForm.value)
+        .subscribe(
+          (data) => this.data = data,
+          (error) => console.log(error)
+        );
     }
   }
 
   ngOnInit() {
   }
-
 }

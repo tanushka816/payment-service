@@ -7,31 +7,39 @@
   
   <form [formGroup]="myForm">
     <div>
-    Выберите поле:<br/>
-    <select *ngIf="!isRequestData" formControlName="field">
-      <option selected value="card_number">Номер счета</option>
-      <option value="year">мм/гг</option>
-      <option value="cvc">cvc</option>
-      <option value="summ">Сумма</option>
-      <option value="email">Почта</option>
-    </select>
-    <select *ngIf="isRequestData" formControlName="field">
-      <option value="bik">БИК</option>
-      <option value="inn">ИНН</option>
-      <option value="nds">НДС</option>
-      <option value="summ">Сумма</option>
-      <option selected value="card_number">Номер счета</option>
-      <option value="tlf_number">Телефон</option>
-      <option value="email">Почта</option>
-    </select>
-  </div>
+      Выберите поле:<br />
+      <select *ngIf="!isRequestData" formControlName="field">
+        <option selected value="card_number">Номер счета</option>
+        <option value="year">мм/гг</option>
+        <option value="cvc">cvc</option>
+        <option value="summ">Сумма</option>
+        <option value="email">Почта</option>
+      </select>
+      <select *ngIf="isRequestData" formControlName="field">
+        <option value="bik">БИК</option>
+        <option value="inn">ИНН</option>
+        <option value="nds">НДС</option>
+        <option value="summ">Сумма</option>
+        <option selected value="card_number">Номер счета</option>
+        <option value="tlf_number">Телефон</option>
+        <option value="email">Почта</option>
+      </select>
+    </div>
+
+    <div>
+      Сортировка:
+      <select formControlName="sort">
+        <option value="">Отключить</option>
+        <option value="asc">↑</option>
+        <option value="desc">↓</option>
+      </select>
+    </div>
   
     Фильтр:
     <input name="filter" formControlName="filter">
-    </form> 
+  </form>
   
   <p><button class="bt" type="submit" (click)="onSubmit()">ОТПРАВИТЬ</button></p>
-  
   
   <br/>
   <table *ngIf="isRequestData">
@@ -44,35 +52,35 @@
       <th>ТЕЛЕФОН</th>
       <th>ПОЧТА</th>
     </tr>
-    <tr *ngFor="let requestData of data | keyvalue">  
-      <td>{{requestData.value.bik}}</td>
-      <td>{{requestData.value.inn}}</td>
-      <td>{{requestData.value.nds}}</td>
-      <td>{{requestData.value.summ}}</td>
-      <td>{{requestData.value.card_number}}</td>
-      <td>{{requestData.value.tlf_number}}</td>
-      <td>{{requestData.value.email}}</td>
+    <tr *ngFor="let requestData of data">
+      <td>{{requestData.bik}}</td>
+      <td>{{requestData.inn}}</td>
+      <td>{{requestData.nds}}</td>
+      <td>{{requestData.summ}}</td>
+      <td>{{requestData.card_number}}</td>
+      <td>{{requestData.tlf_number}}</td>
+      <td>{{requestData.email}}</td>
     </tr>
   </table>
   
   <table *ngIf="isCardData">
-      <tr>
-        <th>НОМЕР СЧЕТА</th>
-        <th>ММ/ГГ</th>
-        <th>CVC</th>
-        <th>СУММА</th>
-        <th>ПОЧТА</th>
-        <th>БЕЗОПАСНЫЙ</th>
-        <th>ИЗМЕНИТЬ БЕЗОПАСНОСТЬ</th>
-      </tr>
-      <tr *ngFor="let item of data | keyvalue" [ngClass]="{myError: !item.value.secure}">
-        <td>{{item.value.card_number}}</td>
-        <td>{{item.value.mounth}}/{{item.value.year}}</td>
-        <td>{{item.value.cvc}}</td>
-        <td>{{item.value.summ}}</td>
-        <td>{{item.value.email}}</td>
-        <td>{{item.value.secure}}</td>
-        <td><button (click)="onSubmitChangeSecure(item.key)">ИЗМЕНИТЬ</button></td>
-      </tr>
-    </table>
+    <tr>
+      <th>НОМЕР СЧЕТА</th>
+      <th>ММ/ГГ</th>
+      <th>CVC</th>
+      <th>СУММА</th>
+      <th>ПОЧТА</th>
+      <th>БЕЗОПАСНЫЙ</th>
+      <th>ИЗМЕНИТЬ БЕЗОПАСНОСТЬ</th>
+    </tr>
+    <tr *ngFor="let item of data" [ngClass]="{myError: !item.secure}">
+      <td>{{item.card_number}}</td>
+      <td>{{item.mounth}}/{{item.year}}</td>
+      <td>{{item.cvc}}</td>
+      <td>{{item.summ}}</td>
+      <td>{{item.email}}</td>
+      <td>{{item.secure}}</td>
+      <td><button (click)="onSubmitChangeSecure(item)">ИЗМЕНИТЬ</button></td>
+    </tr>
+  </table>
   

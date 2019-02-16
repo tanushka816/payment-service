@@ -26,25 +26,27 @@ export class ServerService {
             {observe: "response", responseType: "text"})
     }
 
-    getCardPayment(field?: string, filter?: string) {
-        if (filter) filter = "filter=" + filter;
-        if (field) field = "field=" + field;
-        const query = `?${field}&${filter}`;
-        console.log(query);
-        return this.http.get(this.address + "card-payment" + query)
+    getCardPayment(params?) {
+        return this.http.get(this.address + "card-payment", 
+            {params: params && this.validateParams(params)})
     }
 
-    getRequestPayment(field?: string, filter?: string) {
-        if (filter) filter = "filter=" + filter;
-        if (field) field = "field=" + field;
-        const query = `?${field}&${filter}`;
-        console.log(query);
-        return this.http.get(this.address + "request-payment" + query)
+    getRequestPayment(params?) {
+        return this.http.get(this.address + "request-payment", 
+            {params: params && this.validateParams(params)})
     }
 
     changeSecure(data) {
         return this.http.patch(this.address + "change-secure", data, 
             {observe: 'response', responseType: 'text'})
+    }
+
+    private validateParams(params) {
+        return {
+            ...params.filter && {filter: params["filter"]},
+            ...params.field && {field: params["field"]},
+            ...params.sort && {sort: params["sort"]}
+        }
     }
 
 

@@ -96,10 +96,13 @@ app.get('/:path', function(request, response) {
         ref = ref.orderBy(field, sort);
     }
     ref.onSnapshot(function(snapshot) {
-        const res = {};
-        snapshot.forEach(doc => {res[doc.id] = doc.data()});
+        const res = snapshot.docs.map(doc => {
+            const data = doc.data();
+            data['id'] = doc.id;
+            return data;
+        });
         send(response, res, 'Данные отправлены');
-    })
+    });
 })
 
 app.patch('/change-secure', function(request, response) {
